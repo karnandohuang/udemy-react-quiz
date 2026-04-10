@@ -47,10 +47,7 @@ export default function Quiz(props) {
         <div id="quiz">
             <Question
                 key={activeQuestionIndex}
-                questionText={QUESTIONS[activeQuestionIndex].text}
-                answers={QUESTIONS[activeQuestionIndex].answers}
-                answerState={answerState}
-                selectedAnswer={userAnswers[userAnswers.length - 1]}
+                index={activeQuestionIndex}
                 onSelect={handleSelectAnswer}
                 onSkipAnswer={handleSkipAnswer}
             />
