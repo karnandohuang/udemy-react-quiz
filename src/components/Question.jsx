@@ -10,12 +10,14 @@ export default function Question({ index, onSkipAnswer, onSelect }) {
     })
 
     function handleSelectAnswer(answer) {
+        console.log('handleSelectAnswer', answer)
         setAnswer({
             selectedAnswer: answer,
             isCorrect: null
         })
 
         setTimeout(() => {
+            console.log('setTimeout in handleSelectAnswer called')
             setAnswer({
                 selectedAnswer: answer,
                 isCorrect: QUESTIONS[index].answers[0] === answer
@@ -35,8 +37,20 @@ export default function Question({ index, onSkipAnswer, onSelect }) {
         answerState = 'answered'
     }
 
+    let timer = 3000
+
+    if (answer.selectedAnswer) {
+        timer = 1000
+    }
+
+    if (answer.isCorrect !== null) {
+        timer = 2000
+    }
+
+    console.log('render question')
+
     return <div id="question">
-        <QuestionTimer timeout={5000} onTimeout={onSkipAnswer} />
+        <QuestionTimer timeout={timer} key={timer} onTimeout={answer.selectedAnswer === '' ? onSkipAnswer : null} mode={answerState} />
         <h2>
             {QUESTIONS[index].text}
         </h2>

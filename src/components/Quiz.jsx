@@ -7,32 +7,21 @@ import Answers from "./Answers.jsx";
 import Question from "./Question.jsx";
 
 export default function Quiz(props) {
-    const [answerState, setAnswerState] = useState('')
     const [userAnswers, setUserAnswers] = useState([])
 
-    const activeQuestionIndex = answerState ? userAnswers.length - 1 : userAnswers.length
+    const activeQuestionIndex = userAnswers.length
 
     const quizIsComplete = activeQuestionIndex === QUESTIONS.length
-    console.log(quizIsComplete)
+    console.log('render quiz', quizIsComplete)
 
     const handleSelectAnswer = useCallback((answer) => {
-        setAnswerState('answered')
         setUserAnswers(prevAnswer => [...prevAnswer, answer])
+    }, [])
 
-        setTimeout(() => {
-            console.log('hehe', answer === QUESTIONS[activeQuestionIndex].answers[0])
-            if (answer === QUESTIONS[activeQuestionIndex].answers[0]) {
-                setAnswerState('correct')
-            } else {
-                setAnswerState('wrong')
-            }
-            setTimeout(() => {
-                setAnswerState('')
-            }, 2000)
-        }, 1000)
-    }, [activeQuestionIndex])
-
-    const handleSkipAnswer = useCallback(() => handleSelectAnswer(null), [handleSelectAnswer])
+    const handleSkipAnswer = useCallback(() => {
+        console.log('skip')
+        handleSelectAnswer(null)
+    }, [handleSelectAnswer])
 
     if (quizIsComplete) {
         return <div id="summary">
@@ -40,8 +29,6 @@ export default function Quiz(props) {
             <h2>Quiz Completed!</h2>
         </div>
     }
-
-
 
     return (
         <div id="quiz">
